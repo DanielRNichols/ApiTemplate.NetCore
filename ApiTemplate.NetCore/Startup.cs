@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.IO;
+using ApiTemplate.NetCore.Services;
+using ApiTemplate.NetCore.Interfaces;
 
 namespace ApiTemplate.NetCore
 {
@@ -53,6 +55,7 @@ namespace ApiTemplate.NetCore
 
             });
 
+            services.AddSingleton<ILoggerService, LoggerService>();
 
             services.AddControllers();
         }
