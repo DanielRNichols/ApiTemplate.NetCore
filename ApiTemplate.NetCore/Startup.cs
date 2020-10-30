@@ -17,6 +17,8 @@ using System.Reflection;
 using System.IO;
 using ApiTemplate.NetCore.Services;
 using ApiTemplate.NetCore.Interfaces;
+using AutoMapper;
+using ApiTemplate.NetCore.Mappings;
 
 namespace ApiTemplate.NetCore
 {
@@ -36,9 +38,13 @@ namespace ApiTemplate.NetCore
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>()  //options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            // AutoMapper
+            services.AddAutoMapper(typeof(Maps));
+
+            // Cors
             services.AddCors(options =>
             {
                 options.AddPolicy(CorsPolicyName,
