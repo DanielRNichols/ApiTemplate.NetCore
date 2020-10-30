@@ -8,10 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTemplate.NetCore.Controllers
 {
+    /// <summary>
+    /// Home Controller for API Template
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class HomeController : ControllerBase
     {
+        /// <summary>
+        /// Get all values
+        /// </summary>
+        /// <returns></returns>
         // GET: api/<HomeController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -19,6 +26,11 @@ namespace ApiTemplate.NetCore.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        /// <summary>
+        /// Get single value by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET api/<HomeController>/5
         [HttpGet("{id}")]
         public string Get(int id)

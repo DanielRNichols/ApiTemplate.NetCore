@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
 
 namespace ApiTemplate.NetCore
 {
@@ -43,6 +45,12 @@ namespace ApiTemplate.NetCore
                     Version = "v1",
                     Description = "Api Template"
                 });
+
+                var xmlFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlFullPath = Path.Combine(AppContext.BaseDirectory, xmlFileName);
+
+                cfg.IncludeXmlComments(xmlFullPath);
+
             });
 
 
@@ -69,6 +77,7 @@ namespace ApiTemplate.NetCore
             app.UseSwaggerUI(cfg => 
             {
                 cfg.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
+                cfg.RoutePrefix = ""; ;
             });
 
             app.UseHttpsRedirection();
