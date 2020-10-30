@@ -12,6 +12,7 @@ using ApiTemplate.NetCore.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace ApiTemplate.NetCore
 {
@@ -32,6 +33,19 @@ namespace ApiTemplate.NetCore
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // SwaggerGen Swashbuckle
+            services.AddSwaggerGen(cfg =>  
+            {
+                cfg.SwaggerDoc("v1", new OpenApiInfo 
+                {
+                    Title = "Api",  
+                    Version = "v1",
+                    Description = "Api Template"
+                });
+            });
+
+
             services.AddControllers();
         }
 
@@ -49,6 +63,13 @@ namespace ApiTemplate.NetCore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(cfg => 
+            {
+                cfg.SwaggerEndpoint("/swagger/v1/swagger.json", "Api");
+            });
 
             app.UseHttpsRedirection();
 
