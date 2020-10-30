@@ -22,6 +22,7 @@ namespace ApiTemplate.NetCore
 {
     public class Startup
     {
+        private readonly string CorsPolicyName = "CorsPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -37,6 +38,12 @@ namespace ApiTemplate.NetCore
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicyName,
+                    policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
 
             // SwaggerGen Swashbuckle
             services.AddSwaggerGen(cfg =>  
@@ -74,6 +81,8 @@ namespace ApiTemplate.NetCore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors(CorsPolicyName);
 
             // Swagger
             app.UseSwagger();
