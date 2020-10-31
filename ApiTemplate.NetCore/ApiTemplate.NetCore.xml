@@ -4,6 +4,13 @@
         <name>ApiTemplate.NetCore</name>
     </assembly>
     <members>
+        <member name="M:ApiTemplate.NetCore.Controllers.AuthController.Login(ApiTemplate.NetCore.DTOs.UserDTO)">
+            <summary>
+            User Login Endpoint
+            </summary>
+            <param name="userDTO"></param>
+            <returns></returns>
+        </member>
         <member name="T:ApiTemplate.NetCore.Controllers.HomeController">
             <summary>
             Home Controller for API Template

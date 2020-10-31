@@ -19,6 +19,10 @@ using ApiTemplate.NetCore.Services;
 using ApiTemplate.NetCore.Interfaces;
 using AutoMapper;
 using ApiTemplate.NetCore.Mappings;
+using BookStoreApi.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace ApiTemplate.NetCore
 {
@@ -39,10 +43,32 @@ namespace ApiTemplate.NetCore
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()  //options => options.SignIn.RequireConfirmedAccount = true)
+                // Add Roles service
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             // AutoMapper
             services.AddAutoMapper(typeof(Maps));
+
+            // JWT Authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:issuer"],
+                        ValidAudience = Configuration["Jwt:issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:key"]))
+
+                    };
+
+                });
+
+
 
             // Cors
             services.AddCors(options =>
@@ -75,7 +101,9 @@ namespace ApiTemplate.NetCore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -88,6 +116,9 @@ namespace ApiTemplate.NetCore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // Seed the database
+            SeedData.Seed(userManager, roleManager).Wait();
 
             app.UseCors(CorsPolicyName);
 
