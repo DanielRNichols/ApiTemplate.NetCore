@@ -69,6 +69,7 @@ namespace ApiTemplate.NetCore
             });
 
             services.AddSingleton<ILoggerService, LoggerService>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddControllers();
         }

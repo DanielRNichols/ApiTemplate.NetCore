@@ -13,6 +13,7 @@ namespace ApiTemplate.NetCore.Mappings
         public Maps()
         {
             CreateMap<Item, ItemDTO>().ReverseMap();
+            CreateMap<Item, ItemCreateDTO>().ReverseMap();
         }
     }
 }

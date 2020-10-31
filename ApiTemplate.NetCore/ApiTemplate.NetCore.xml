@@ -22,5 +22,44 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:ApiTemplate.NetCore.Controllers.ItemsController">
+            <summary>
+            Controller for interacting with Item endpoint
+            </summary>
+        </member>
+        <member name="M:ApiTemplate.NetCore.Controllers.ItemsController.GetItems">
+            <summary>
+            Get all items
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ApiTemplate.NetCore.Controllers.ItemsController.GetItem(System.Int32)">
+            <summary>
+            Get an item by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiTemplate.NetCore.Controllers.ItemsController.Create(ApiTemplate.NetCore.DTOs.ItemCreateDTO)">
+            <summary>
+            Create a new item
+            </summary>
+            <param name="itemDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiTemplate.NetCore.Controllers.ItemsController.Update(System.Int32,ApiTemplate.NetCore.DTOs.ItemCreateDTO)">
+            <summary>
+            Update an item
+            </summary>
+            <param name="id"></param>
+            <param name="itemDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiTemplate.NetCore.Controllers.ItemsController.Delete(System.Int32)">
+            <summary>
+            Delete an item
+            </summary>
+            <param name="id"></param>
+        </member>
     </members>
 </doc>
