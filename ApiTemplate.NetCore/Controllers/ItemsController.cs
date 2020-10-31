@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using ApiTemplate.NetCore.Data;
 using ApiTemplate.NetCore.DTOs;
 using ApiTemplate.NetCore.Interfaces;
+using ApiTemplate.NetCore.Static;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,6 +42,7 @@ namespace ApiTemplate.NetCore.Controllers
         /// <returns></returns>
         // GET: api/<ItemsController>
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetItems()
@@ -66,6 +69,7 @@ namespace ApiTemplate.NetCore.Controllers
         /// <returns></returns>
         // GET api/<ItemsController>/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -99,6 +103,7 @@ namespace ApiTemplate.NetCore.Controllers
         /// <returns></returns>
         // POST api/<ItemsController>
         [HttpPost]
+        [Authorize(Roles = UserRoles.Administrator)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -141,6 +146,7 @@ namespace ApiTemplate.NetCore.Controllers
         /// <returns></returns>
         // PUT api/<ItemsController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = UserRoles.Administrator)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -197,6 +203,7 @@ namespace ApiTemplate.NetCore.Controllers
         /// <param name="id"></param>
         // DELETE api/<ItemsController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = UserRoles.Administrator)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
